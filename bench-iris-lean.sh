@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export LAKEPROF_UPLOAD_URL="https://speed.lean-lang.org/cslib-out/"
+export LAKEPROF_UPLOAD_URL="https://speed.lean-lang.org/iris-lean-out/"
 
 cd "$RADAR_REPO"
 lean --version # install and sanity check

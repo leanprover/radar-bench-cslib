@@ -2,48 +2,31 @@
 
 This directory contains the cslib benchmark suite.
 It is built around [radar](github.com/leanprover/radar)
-and benchmark results can be viewed on the [Lean FRO radar instance](https://radar.lean-lang.org/repos/cslib).
+and benchmark results can be viewed
+on the [Lean FRO radar instance](https://radar.lean-lang.org/repos/cslib).
 
-To execute the entire suite, call the `run` script in this directory.
-To execute an individual benchmark, call the `run` script in the benchmark's directory.
-Some scripts output their measurements on stdout or stderr with the prefix `radar::measurement=`
-while other scripts output their measurements in the file `radar.jsonl`.
+To execute the benchmark suite, run `scripts/bench/run` from the repo root.
+All measurements will be placed into `measurements.jsonl` in the repo root.
+
+Radar sums any duplicated measurements with matching metrics.
+To post-process the `measurements.jsonl` file this way,
+run `scripts/bench/combine.py measurements.jsonl -o measurements_combined.jsonl`
+in the repo root after executing the benchmark suite.
 
 The `*.py` symlinks exist only so the python files are a bit nicer to edit
 in text editors that rely on the file ending.
 
-## Benchmarks
+## Adding a benchmark
 
-### The `build` benchmark
+To add a benchmark to the suite, follow these steps:
 
-This benchmark executes a complete build of cslib and collects global and per-module metrics.
+1. Create a new folder containing a `run` script and a `README.md` file describing the benchmark,
+   as well as any other files required for the benchmark.
+2. Edit `scripts/bench/run` to call the `run` script of your new benchmark.
 
-The following metrics are collected by a wrapper around the entire build process:
+The following environment variables are available to an individual benchmark's `run` script:
 
-- `build//instructions`
-- `build//maxrss`
-- `build//task-clock`
-- `build//wall-clock`
-
-The following metrics are collected from `leanc --profile` and summed across all modules:
-
-- `build/profile/<name>//wall-clock`
-
-The following metrics are collected from `lakeprof report`:
-
-- `build/lakeprof/longest build path//wall-clock`
-- `build/lakeprof/longest rebuild path//wall-clock`
-
-The following metrics are collected individually for each module:
-
-- `build/module/<name>//lines`
-- `build/module/<name>//instructions`
-
-## The `size` benchmark
-
-This benchmark measures a few deterministic values.
-
-- `size/.lean//files`
-- `size/.lean//lines`
-- `size/.olean//files`
-- `size/.olean//bytes`
+- `ROOT_DIR`: absolute path to the root of the repo
+- `BENCH_DIR`: absolute path to this directory (`scripts/bench`).
+- `OUTPUT_FILE`: absolute path to the `measurements.jsonl` file
+  that benchmarks should append their measurements to
