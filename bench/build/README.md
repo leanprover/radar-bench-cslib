@@ -28,5 +28,5 @@ The following metrics are collected individually for each module:
 - `build/module/<name>//lines`
 - `build/module/<name>//instructions`
 
-If the `LAKEPROF_UPLOAD_URL` environment variable is set, the lakeprof report
-will be uploaded to that URL prefix once the benchmark run concludes.
+If the `LAKEPROF_UPLOAD_URL` environment variable is set,
+the lakeprof report will be uploaded to that URL prefix once the benchmark run concludes.
